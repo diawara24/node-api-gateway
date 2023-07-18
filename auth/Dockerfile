@@ -1,12 +1,15 @@
 FROM node:16
 
-WORKDIR ./
+RUN mkdir -p /auth
 
-COPY package*.json ./
+WORKDIR /auth
+
+COPY package*.json /auth
 
 RUN npm install
 
-COPY . .
+COPY . /auth
 
-EXPOSE 8080
-CMD [ "node", "server.js" ]
+#EXPOSE 8080
+
+CMD [ "npm", "run", "start" ]

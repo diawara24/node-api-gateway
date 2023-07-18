@@ -9,14 +9,13 @@ services:
     restart: always
 
   auth:
-    image: auth
     build: 
       context: ./auth
       dockerfile: Dockerfile
     container_name: auth
     volumes:
-     - ./tmp/npm:/root/.npm:z
-     - ./auth/src:/usr/src/app/src:z
+     - /auth/node_modules
+     - ./auth:/auth
     ports:
      - "8080:8080"
     depends_on:
@@ -24,14 +23,13 @@ services:
     restart: always
 
   gateway:
-    image: gateway
     build: 
       context: ./gateway
       dockerfile: Dockerfile
     container_name: gateway
     volumes:
-     - ./tmp/npm:/root/.npm:z
-     - ./gateway/src:/usr/src/app/src:z
+     - /gateway/node_modules
+     - ./gateway:/gateway
     ports:
      - "3000:3000"
     depends_on:

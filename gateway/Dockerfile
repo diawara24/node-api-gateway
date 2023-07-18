@@ -1,12 +1,15 @@
 FROM node:16
 
-WORKDIR ./
+RUN mkdir -p /gateway
 
-COPY package*.json ./
+WORKDIR /gateway
+
+COPY package*.json /gateway
 
 RUN npm install
 
-COPY . .
+COPY . /gateway
 
 EXPOSE 3000
-CMD [ "node", "server.js" ]
+
+CMD [ "npm", "run", "start" ]
