@@ -1,0 +1,39 @@
+version: '3'
+services:
+
+  db:
+    image: mongo:5.0.12
+    container_name: db
+    ports:
+     - "27017:27017"
+    restart: always
+
+  auth:
+    image: auth
+    build: 
+      context: ./auth
+      dockerfile: Dockerfile
+    container_name: auth
+    volumes:
+     - ./tmp/npm:/root/.npm:z
+     - ./auth/src:/usr/src/app/src:z
+    ports:
+     - "8080:8080"
+    depends_on:
+     - db
+    restart: always
+
+  gateway:
+    image: gateway
+    build: 
+      context: ./gateway
+      dockerfile: Dockerfile
+    container_name: gateway
+    volumes:
+     - ./tmp/npm:/root/.npm:z
+     - ./gateway/src:/usr/src/app/src:z
+    ports:
+     - "3000:3000"
+    depends_on:
+     - auth
+    restart: always
