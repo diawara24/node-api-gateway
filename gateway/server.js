@@ -3,7 +3,7 @@ const app = express();
 const proxy = require("express-http-proxy")
 
 
-app.use("/api/auth", proxy("http://localhost:8080"))
+app.use("/api/auth", proxy("http://auth"))
 
 
 
