@@ -5,7 +5,12 @@ const SECRET_KEY = process.env.SECRET_KEY
 
 exports.signup = async (req, res) => {
     try {
-        const newUser = new User({ ...req.body });
+        const newUser = new User({
+            name: req.body.name,
+            role: req.body.role,
+            email: req.body.email,
+            password: req.body.password,
+        });
         const insertedUser = await newUser.save();
 
         res.status(201).json(insertedUser);
@@ -29,7 +34,12 @@ exports.login = async (req, res) => {
         } else {
             const match = await bcrypt.compare(req.body.password, user.password);
             if (match) {
-                const token = jwt.sign({ id: user.id }, SECRET_KEY);
+                const token = jwt.sign(
+                    {
+                        id: user.id,
+                        role: user.role
+                    }, SECRET_KEY
+                );
                 return res.status(200).json({
                     accessToken: token,
                     user: user,
@@ -44,4 +54,17 @@ exports.login = async (req, res) => {
                 err.message || `erreur serveur`
         });
     }
+}
+
+
+exports.getUserInfoFromToken = (req, res) => {
+    try {
+        res.status(200).json({
+            id: req.auth.userId,
+            role: req.auth.role
+        });
+    } catch (error) {
+        console.log(error);
+    }
+
 }

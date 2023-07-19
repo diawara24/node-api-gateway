@@ -1,11 +1,13 @@
 const express = require('express');
 const app = express();
 const proxy = require("express-http-proxy")
+const adminMiddleware = require("./app/middleware/adminMiddleware.js")
 
 
 app.use("/api/auth", proxy("http://auth:8080"))
 
-app.use("/api/products", proxy("http://products:8081"))
+
+app.use("/api/products", adminMiddleware, proxy("http://products:8081"))
 
 
 

@@ -6,9 +6,11 @@ module.exports = (req, res, next) => {
         //decoded the token
         const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
         const userId = decodedToken.id;
+        const role = decodedToken.role;
         //save userId in req.auth var
         req.auth = {
-            userId
+            userId,
+            role
         };
         next();
         
