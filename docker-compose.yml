@@ -6,6 +6,8 @@ services:
     container_name: db
     ports:
      - "27017:27017"
+    volumes:
+      - mongodb:/data/db
     restart: always
 
   auth:
@@ -16,8 +18,18 @@ services:
     volumes:
      - /auth/node_modules
      - ./auth:/auth
-    ports:
-     - "8080:8080"
+    depends_on:
+     - db
+    restart: always
+  
+  products:
+    build: 
+      context: ./products-manager
+      dockerfile: Dockerfile
+    container_name: products
+    volumes:
+     - /products/node_modules
+     - ./products-manager:/products
     depends_on:
      - db
     restart: always
@@ -34,4 +46,7 @@ services:
      - "3000:3000"
     depends_on:
      - auth
+     - products
     restart: always
+volumes:
+  mongodb:

@@ -5,6 +5,8 @@ const proxy = require("express-http-proxy")
 
 app.use("/api/auth", proxy("http://auth:8080"))
 
+app.use("/api/products", proxy("http://products:8081"))
+
 
 
 app.listen(3000, "0.0.0.0", () => {

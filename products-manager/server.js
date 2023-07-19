@@ -5,7 +5,7 @@ const app = require('./app.js');
 
 
 app.get('', (req, res) => {
-    res.send('auth micro-service');
+    res.send('products micro-service');
 })
 
 const host = process.env.HOST;
