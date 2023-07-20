@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const proxy = require("express-http-proxy")
-const adminMiddleware = require("./app/middleware/adminMiddleware.js")
+const adminMiddleware = require("./app/middleware/adminMiddleware-token.js")
 
 
 app.use("/api/auth", proxy("http://auth:8080"))
